@@ -1,6 +1,6 @@
 USE the_pizza_company;
 
--- Determine the distribution of orders by hour of the day. -> MASTER TABLE
+-- The distribution of orders by hour of the day. -> MASTER TABLE
 SELECT DISTINCT
     HOUR(o.order_time) AS dayHour,
     t.category,
@@ -19,13 +19,13 @@ FROM
 GROUP BY dayHour , t.category , t.name , p.size
 ORDER BY dayHour ASC;
 
--- Retrieve the total number of orders placed.
+-- Total number of orders placed.
 SELECT 
     COUNT(*) AS totalOrders
 FROM
     orders;
 
--- Calculate the total revenue generated from pizza sales.
+-- Total revenue generated from pizza sales.
 SELECT 
     SUM(p.price * d.quantity) AS totalRevenue
 FROM
@@ -33,7 +33,7 @@ FROM
         JOIN
     order_details d ON p.pizza_id = d.pizza_id;
 
--- Identify the highest-priced pizza.
+-- Highest-priced pizza.
 SELECT 
     t.name, p.pizza_id, p.price
 FROM
@@ -43,7 +43,7 @@ FROM
 ORDER BY price DESC
 LIMIT 1;
 
--- Identify the most common pizza size 
+-- Most common pizza size 
 SELECT 
     p.size,
     COUNT(d.quantity) AS totalOrders,
@@ -55,7 +55,7 @@ FROM
 GROUP BY p.size
 ORDER BY totalSales DESC;
 
--- List the top 5 most ordered pizza types along with their quantities.
+-- Top 5 most ordered pizza types along with their quantities.
 SELECT 
     t.name,
     SUM(d.quantity) AS totalQuantity,
@@ -70,7 +70,7 @@ GROUP BY t.name , d.quantity
 ORDER BY totalQuantity DESC
 LIMIT 5;
 
--- Join the necessary tables to find the total quantity of each pizza category ordered.
+-- Joining the necessary tables to find the total quantity of each pizza category ordered.
 SELECT 
     t.category,
     COUNT(d.quantity) AS totalOrders,
@@ -84,8 +84,7 @@ FROM
 GROUP BY t.category
 ORDER BY totalOrders DESC;
 
--- Join relevant tables to find the category-wise distribution of pizzas.
-
+-- Joining relevant tables to find the category-wise distribution of pizzas.
 
 SELECT 
     ROUND(AVG(dayOrders), 0) AS dayOrdersAvg
@@ -98,7 +97,7 @@ FROM
     GROUP BY o.order_date) AS dailyOrders;
 
 
--- Determine the top 3 most ordered pizza types based on revenue.
+-- Top 3 most ordered pizza types based on revenue.
 SELECT 
     p.pizza_type_id,
     ROUND(SUM(d.quantity * p.price), 2) AS totalSales
@@ -110,7 +109,7 @@ GROUP BY p.pizza_type_id
 ORDER BY totalSales DESC
 LIMIT 3;
 
--- Calculate the percentage contribution of each pizza type to total revenue.
+-- Percentage contribution of each pizza type to total revenue.
 SELECT 
     t.category,
     ROUND(SUM(p.price * d.quantity) / (SELECT 
@@ -130,7 +129,7 @@ GROUP BY t.category
 ORDER BY salesPerc DESC;
 
 
--- Determine the top 3 most ordered pizza types based on revenue for each pizza category.
+-- Top 3 most ordered pizza types based on revenue for each pizza category.
 SELECT category, name, sales
 FROM
 (SELECT category, name, sales,
